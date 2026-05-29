@@ -87,7 +87,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "sum(increase(vllm_requests_total[${__range_s}s]))",
+          "expr": "sum(increase(vllm:request_success_total[${__range_s}s]))",
           "refId": "A"
         }
       ],
@@ -144,7 +144,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "sum(increase(vllm_generation_tokens_total[${__range_s}s]))",
+          "expr": "sum(increase(vllm:generation_tokens_total[${__range_s}s]))",
           "refId": "A"
         }
       ],
@@ -201,7 +201,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "sum(increase(vllm_prompt_tokens_total[${__range_s}s]))",
+          "expr": "sum(increase(vllm:prompt_tokens_total[${__range_s}s]))",
           "refId": "A"
         }
       ],
@@ -258,7 +258,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "sum(increase(vllm_generation_tokens_total[${__range_s}s])) / sum(increase(vllm_requests_total[${__range_s}s]))",
+          "expr": "sum(increase(vllm:generation_tokens_total[${__range_s}s])) / sum(increase(vllm:request_success_total[${__range_s}s]))",
           "refId": "A"
         }
       ],
@@ -290,7 +290,7 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "Latency (ms)",
+            "axisLabel": "Latency (s)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -320,7 +320,7 @@
               }
             ]
           },
-          "unit": "ms"
+          "unit": "s"
         },
         "overrides": []
       },
@@ -343,17 +343,17 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.5, rate(vllm_request_latency_bucket[1m]))",
+          "expr": "histogram_quantile(0.5, rate(vllm:e2e_request_latency_seconds_bucket[1m]))",
           "legendFormat": "P50 Latency",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, rate(vllm_request_latency_bucket[1m]))",
+          "expr": "histogram_quantile(0.95, rate(vllm:e2e_request_latency_seconds_bucket[1m]))",
           "legendFormat": "P95 Latency",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, rate(vllm_request_latency_bucket[1m]))",
+          "expr": "histogram_quantile(0.99, rate(vllm:e2e_request_latency_seconds_bucket[1m]))",
           "legendFormat": "P99 Latency",
           "refId": "C"
         }
@@ -373,7 +373,7 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "Latency (ms)",
+            "axisLabel": "Latency (s)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -403,7 +403,7 @@
               }
             ]
           },
-          "unit": "ms"
+          "unit": "s"
         },
         "overrides": []
       },
@@ -426,17 +426,17 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.5, rate(vllm_ttft_latency_bucket[1m]))",
+          "expr": "histogram_quantile(0.5, rate(vllm:time_to_first_token_seconds_bucket[1m]))",
           "legendFormat": "P50 TTFT",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, rate(vllm_ttft_latency_bucket[1m]))",
+          "expr": "histogram_quantile(0.95, rate(vllm:time_to_first_token_seconds_bucket[1m]))",
           "legendFormat": "P95 TTFT",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, rate(vllm_ttft_latency_bucket[1m]))",
+          "expr": "histogram_quantile(0.99, rate(vllm:time_to_first_token_seconds_bucket[1m]))",
           "legendFormat": "P99 TTFT",
           "refId": "C"
         }
@@ -522,12 +522,12 @@
       },
       "targets": [
         {
-          "expr": "rate(vllm_generation_tokens_total[1m])",
+          "expr": "rate(vllm:generation_tokens_total[1m])",
           "legendFormat": "Generation Tokens/Sec",
           "refId": "A"
         },
         {
-          "expr": "rate(vllm_prompt_tokens_total[1m])",
+          "expr": "rate(vllm:prompt_tokens_total[1m])",
           "legendFormat": "Prompt Tokens/Sec",
           "refId": "B"
         }
@@ -604,7 +604,7 @@
       },
       "targets": [
         {
-          "expr": "increase(vllm_request_prompt_length_bucket[1m])",
+          "expr": "increase(vllm:request_prompt_tokens_bucket[1m])",
           "format": "heatmap",
           "legendFormat": "{{le}}",
           "refId": "A"
@@ -669,7 +669,7 @@
       },
       "targets": [
         {
-          "expr": "increase(vllm_request_generation_length_bucket[1m])",
+          "expr": "increase(vllm:request_generation_tokens_bucket[1m])",
           "format": "heatmap",
           "legendFormat": "{{le}}",
           "refId": "A"
